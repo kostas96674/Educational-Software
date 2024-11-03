@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block navbar %}
+<div class="ml-auto d-flex align-items-center">
+    <a href="{{ url_for('views.show_progress') }}" class="btn btn-info mr-2">Show Progress</a>
+    <a class="btn btn-danger" href="{{ url_for('auth.logout') }}">Logout</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8" id="main-content">
+            <h1>Section 1 - Introduction</h1>
+            <div class="card">
+                <div class="card-body">
+                    Welcome to the Python Programming course! This course is designed for both beginners and those looking to enhance their existing Python skills. Python is a versatile and powerful programming language that is widely used in various industries, from web development to data science. By taking this course, you will gain a solid foundation in Python, learn to write efficient code, and solve real-world problems. Additionally, the interactive quizzes and practical exercises will help you sharpen your skills and reinforce your learning.Enter this exciting journey and become proficient in Python programming!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="course-content">
+    <div class="accordion" id="chapterAccordion">
+        <div class="card">
+            <div class="card-header" id="courseContentHeader">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#courseContent" aria-expanded="true" aria-controls="courseContent">
+                        Python Programming Course Content
+                    </button>
+                </h2>
+            </div>
+            <div id="courseContent" class="collapse show" aria-labelledby="courseContentHeader" data-parent="#chapterAccordion">
+                <div class="card-body">
+                    {% for chapter in chapters %}
+                    <div class="card">
+                        <div class="card-header" id="chapter{{ chapter.number }}Header">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link chapter-button" type="button" data-chapter-id="{{ chapter.id }}" data-toggle="collapse" data-target="#chapter{{ chapter.number }}Content" aria-expanded="false" aria-controls="chapter{{ chapter.number }}Content">
+                                    Chapter {{ chapter.number }}: {{ chapter.title }}
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="chapter{{ chapter.number }}Content" class="collapse" aria-labelledby="chapter{{ chapter.number }}Header" data-parent="#courseContent">
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    {% for section in sections %}
+                                    {% if section.chapter_id == chapter.id %}
+                                    <li class="list-group-item" data-id="{{ section.id }}" {% if chapter.id == 6 and not check_failed_attempts(current_user.id) %} data-locked="true" {% else %} data-locked="false" {% endif %}>
+                                        {{ section.title }}
+                                        {% if chapter.id == 6 and not check_failed_attempts(current_user.id) %}
+                                        <i class="fas fa-lock"></i>
+                                        {% endif %}
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                                {% set quiz = quizzes|selectattr("chapter_id", "equalto", chapter.id)|first %}
+                                {% if quiz and not chapter.id == 6 %}
+                                <a href="{{ url_for('views.load_quiz', chapter_id=chapter.id) }}" class="btn btn-primary mt-3">Take Quiz</a>
+                                {% endif %}
+                                {% if chapter.id == 6 %}
+                                <a href="{{ url_for('views.general_quiz') }}" class="btn btn-primary mt-3">Take General Quiz</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

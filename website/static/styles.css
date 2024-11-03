@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+
+}
+
+.navbar .btn {
+    margin-left: 10px;
+}
+
+.card {
+    margin-bottom: 0px; /* Space between sections */
+    border: 1px solid #ccc; /* Border between sections */
+}
+
+.card-header {
+    background-color: #f1f1f1; /* Light background for section headers */
+    border-bottom: 1px solid #ccc; /* Border for section headers */
+}
+
+.card-header button {
+    width: 100%;
+    text-align: left;
+}
+
+#course-content {
+    position: fixed;
+    top: 70px; /* Adjust based on your navbar height */
+    right: 20px;
+    width: 400px;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    padding: 15px;
+    border: 1px solid #ccc; /* Border around the course content */
+    background-color: #f9f9f9; /* Light background color */
+}
+
+#main-content {
+    margin-right: 340px; /* Ensure main content doesn't overlap with sidebar */
+    border: 1px solid #ccc; /* Added border for main content */
+    padding: 15px; /* Added padding for better content spacing */
+    background-color: #ffffff; /* Ensured the background is white */
+    border-radius: 5px; /* Optional: Added border radius for rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Added box shadow for subtle effect */
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+

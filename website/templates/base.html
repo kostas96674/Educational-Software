@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Python Course{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand">Python Programming Course</a>
+        {% block navbar %}
+        {% endblock %}
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container mt-4">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show flash-message" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% endwith %}
+  
+    {% block content %}{% endblock %}
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+     <!-- JavaScript to prevent back navigation -->
+     <script>
+        $(document).ready(function() {
+            // Prevent caching
+            $.ajaxSetup({ cache: false });
+
+            // Prevent back navigation to the previous page after logout
+            if (window.history && window.history.pushState) {
+                window.history.pushState(null, null, window.location.href);
+                window.onpopstate = function () {
+                    window.history.pushState(null, null, window.location.href);
+                };
+            }
+        });
+    </script>
+</body>
+</html>
